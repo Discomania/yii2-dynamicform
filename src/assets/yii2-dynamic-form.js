@@ -412,7 +412,8 @@
         var $hasTouchSpin = $(widgetOptionsRoot.widgetItem).find('[data-krajee-TouchSpin]');
         if ($hasTouchSpin.length > 0) {
             $hasTouchSpin.each(function() {
-                $(this).TouchSpin('destroy');
+                // $(this).TouchSpin('destroy');
+                $(this).trigger("touchspin.destroy");
                 $(this).TouchSpin(eval($(this).attr('data-krajee-TouchSpin')));
             });
         }
@@ -456,6 +457,7 @@
         if ($hasSelect2.length > 0) {
             $hasSelect2.each(function() {
                 var id = $(this).attr('id');
+				var $id = $('#' + id);
                 var configSelect2 = eval($(this).attr('data-krajee-select2'));
 
                 if ($(this).data('select2')) {
@@ -470,17 +472,18 @@
                     _restoreKrajeeDepdrop($(this));
                 }
 
-                $.when($('#' + id).select2(configSelect2)).done(initS2Loading(id, '.select2-container--krajee'));
+                $.when($id.select2(configSelect2)).done(initS2Loading(id, '.select2-container--krajee'));
 
-                /* var kvClose = 'kv_close_' + id.replace(/\-/g, '_');
+                var kvClose = 'kv_close_' + id.replace(/\-/g, '_');
 
-                $('#' + id).on('select2:opening', function(ev) {
-                    initSelect2DropStyle(id, kvClose, ev);
+                $id.on('select2:opening', function(ev) {
+                    // initSelect2DropStyle(id, kvClose, ev);
+                    initS2Loading(id, kvClose, ev);
                 });
 
-                $('#' + id).on('select2:unselect', function() {
+                $id.on('select2:unselect', function() {
                     window[kvClose] = true;
-                }); */
+                });
 
                if (configDepdrop) {
                     var loadingText = (configDepdrop.loadingText) ? configDepdrop.loadingText : 'Loading ...';
